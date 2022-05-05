@@ -21,12 +21,7 @@ const app = initializeApp(firebaseConfig);
 // Initialize Analytics and get a reference to the service
 const db = getFirestore();
 
-export const guardarUsuario = (nombre,correo,contrasena)=>{ 
-  addDoc (collection (db,'usuarios'),{
-    nombre,
-    correo,
-    contrasena
-  });
-}
+export const guardarUsuario = (nombre,correo,contrasena)=> addDoc (collection (db,'usuarios'),{nombre,correo,contrasena});
+
 
 export const getUsuarios = () => getDocs(collection(db,'usuarios')) 
