@@ -1,8 +1,12 @@
 import {guardarUsuario,
     getUsuarios
 } from './conexionConfig.js'
-const btnFile = document.getElementById('file-input');
 const user = window.localStorage.getItem('user');
+
+
+
+
+
 window.addEventListener("DOMContentLoaded", function (e) {
     if(user == 'none'){
         const str = window.location.href.replace('ingreso.html','login.html');
@@ -35,6 +39,5 @@ function showPosition(position){
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
         L.marker([position.coords.latitude,position.coords.longitude]).addTo(map)
-            .bindPopup('Tu estas aquis')
             .openPopup();
 }

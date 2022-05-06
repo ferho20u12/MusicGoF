@@ -63,19 +63,42 @@
             </div>
         </nav>
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <p id = "texto-user"></p>
-            <div class="d-grid gap-2 ">
-                <button class="btn btn-secondary " type="button" onclick="document.getElementById('file-input').click();">Abrir archivo</button>
-                <input id="file-input" type="file" name="name" style="display: none;" accept="audio/*"/>
-            </div>
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <p id = "texto-user"></p>
+                <div class="d-grid gap-2 ">
+                    <section class="text-center" >
+                        <input type="file" id="archivoInput" class="col-md-offset-4 col-md-4" onchange="return validarExt()" accept="audio/*" />
+                        <br><br>
+                        <div id="visorArchivo">
+                            <!--Aqui se desplegará el fichero-->
+                        </div>
+                    </section>            
+                </div>
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 
-            </di>
-            <div id="map" class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            </div>
+                </di>
+                <div id="map" class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                </div>
         </main>
     </div>
     </div>
+    <script type="text/javascript">
+
+        function validarExt()
+        {
+            var archivoInput = document.getElementById('archivoInput');
+            var archivoRuta = archivoInput.value;
+            if (archivoInput.files && archivoInput.files[0]) 
+            {
+                var visor = new FileReader();
+                visor.onload = function(e) 
+                {
+                    document.getElementById('visorArchivo').innerHTML = 
+                    '<audio controls><source src="'+e.target.result+'"></audio>';
+                };
+                visor.readAsDataURL(archivoInput.files[0]);
+            }
+        }
+        </script>
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
     integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
     crossorigin=""></script>
