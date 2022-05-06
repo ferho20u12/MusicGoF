@@ -29,7 +29,7 @@ function geoloc (){
 }
 
 function showPosition(position){
-    let map = L.map('map').setView([position.coords.latitude,position.coords.longitude], 3);
+    let map = L.map('map').setView([position.coords.latitude,position.coords.longitude], 16);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
