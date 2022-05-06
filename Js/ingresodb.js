@@ -1,6 +1,7 @@
 import {guardarUsuario,
     getUsuarios
 } from './conexionConfig.js'
+const btnFile = document.getElementById('file-input');
 const user = window.localStorage.getItem('user');
 window.addEventListener("DOMContentLoaded", function (e) {
     if(user == 'none'){
