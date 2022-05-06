@@ -16,7 +16,9 @@ btn.addEventListener('submit', async (e)=>{
                 band = true;
                 if(doc.data().contrasena == pass.value){
                     const str = window.location.href.replace('login.html','ingreso.html');
-                    localStorage.setItem("user", user.value);
+                    const nom = ""+doc.data().nombre;
+                    localStorage.setItem("correo", user.value);
+                    localStorage.setItem("user", nom);
                     location.href = str;
                 }
                 else{
