@@ -1,5 +1,6 @@
 import {guardarUsuario,
-        getUsuarios
+        getUsuarios,
+        Autorizar
 } from './conexionConfig.js'
 
 const btn = document.getElementById('btn-form');
@@ -21,8 +22,9 @@ btn.addEventListener("submit", async (e)=>{
                     band = true;
                 }
             })
-            if(!band){
+            if(!band){ 
                 await guardarUsuario(userName.value,userEmail.value,userPass.value)
+                await Autorizar(userEmail.value,userPass.value)
                 const str = window.location.href.replace('register.html','login.html');
                 location.href = str;
                 alert("Registro Exitoso");

@@ -1,2 +1,8 @@
 #map { height: 90vh;
        width: 100%; }
+#btnMap {
+       border: 0px solid transparent;
+       background-color: transparent;
+       color: black;
+       box-shadow: 0 0px 0px rgba(0, 0, 0, 0.6);
+}

@@ -4,8 +4,11 @@ import { getFirestore ,
           addDoc,
           getDocs,
           query,
-          where
+          where,
+          setDoc,
+          doc
 } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-firestore.js";
+import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-auth.js"
 
 const firebaseConfig = {
    apiKey: "AIzaSyAfGY_mqEF4huqK0oywK-HrNoqX_ityeIU",
@@ -20,8 +23,20 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 // Initialize Analytics and get a reference to the service
 const db = getFirestore();
-
-export const guardarUsuario = (nombre,correo,contrasena)=> addDoc (collection (db,'usuarios'),{nombre,correo,contrasena});
+export const Autorizar = (correo,contrasena)=>{
+  const auth = getAuth();
+  createUserWithEmailAndPassword(auth, correo, contrasena)
+  .then((userCredential) => {
+    // Signed in
+    const user = userCredential.user;
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // ..
+  });
+};
+export const guardarUsuario = (nombre,correo,contrasena)=> setDoc(doc(db,'usuarios',correo),{nombre,correo,contrasena});
 
 
 export const getUsuarios = () => getDocs(collection(db,'usuarios')) 
