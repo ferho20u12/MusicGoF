@@ -34,7 +34,7 @@ btn.addEventListener("submit", async (e)=>{
    
         }
         else{
-            alert ("LLena todo el formulario, no sea imbecil");
+            alert ("LLena todo el formulario");
         }
     }else{
         alert("Las contraseñas no coinciden ");

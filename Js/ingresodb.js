@@ -1,27 +1,34 @@
-import {guardarArchivo
+import {guardarArchivo,
+        guardarCancion
 } from './conexionConfig.js'
 import { mainInicio, mainMap, mainPerfil
 } from './mains.js'
 const user = window.localStorage.getItem('user');
+const correo = window.localStorage.getItem('correo');
 const btnMap = document.getElementById('btn-Map');
 const btnInicio = document.getElementById('btn-Inicio');
 const btnPerfil = document.getElementById('btn-Perfil');
 var band=false;
 const main = document.getElementById('main');
 
-btnMap.addEventListener("click",(e)=>{
+btnMap.addEventListener("click",async (e)=>{
     e.preventDefault();
     main.innerHTML = mainMap;
     geoloc();
     const btnRC = document.getElementById('btn-RC');
-    btnRC.addEventListener("click",(e)=>{
+    btnRC.addEventListener("click",async(e)=>{
         e.preventDefault();
-        const fileName = window.localStorage.getItem('file-name');
-        const file = document.getElementById("myAudio").src;
-        var binary= convertDataURIToBinary(file);
-        var blob=new Blob([binary], {type : 'audio/*'});
-        guardarArchivo(blob,fileName);
-        alert("Cancion guardada");
+        const fileName  = localStorage.getItem('file-name');
+        if(fileName != 'none'){
+            const latitude  = localStorage.getItem('latitude');
+            const longitude = localStorage.getItem('longitude');
+            const file = document.getElementById("myAudio").src;
+            var binary= convertDataURIToBinary(file);
+            var blob=new Blob([binary], {type : 'audio/*'});
+            await guardarCancion(fileName,correo,latitude,longitude);
+            guardarArchivo(blob,fileName);
+            alert("Su cancion se subira en breve");
+        }else{ alert("Seleccione una cancion")}
     })
 
 })
@@ -70,27 +77,35 @@ function geoloc (){
 }
 
 function showPosition(position){
-    let map = L.map('map').setView([position.coords.latitude,position.coords.longitude], 16);
+    const latitude  = position.coords.latitude;;
+    const longitude = position.coords.longitude;
+    let map = L.map('map').setView([latitude,longitude], 16);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
-        L.marker([position.coords.latitude,position.coords.longitude]).addTo(map)
+        L.marker([latitude,longitude]).addTo(map)
             .openPopup();
+    localStorage.setItem('latitude',latitude);
+    localStorage.setItem('longitude',longitude);
 }
 
 
 //---------------------------------------------------------------------Funciones de inico/fin de la pagina
 window.addEventListener("DOMContentLoaded", function (e) {
-    /*if(user == 'none'){
-        const str = window.location.href.replace('ingreso.html','login.html');
-        localStorage.setItem("user","none");
-        location.href = str;
-    }else{
+    localStorage.setItem('file-name','none');
+    if(user != 'none'){
         const texto = document.getElementById('texto-user');
         const name = "Bienvenido "+user;
         texto.placeholder = name; 
-    }*/
+    }else{
+        const str = window.location.href.replace('ingreso.html','login.html');
+        location.href = str;
+    }
 });
 window.addEventListener("beforeunload", function (e) {
-    this.localStorage.setItem("user",'none'); 
+    localStorage.setItem("user",'none'); 
+    localStorage.setItem("correo",'none'); 
+    localStorage.setItem('latitude',null);
+    localStorage.setItem('longitude',null);
+    localStorage.setItem('file-name','none');
 });

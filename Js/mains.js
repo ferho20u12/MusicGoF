@@ -11,7 +11,7 @@ export const mainMap = `    <br></br>
                                     <input type="file" id="archivoInput" class="form-control" onchange="return validarExt()" accept="audio/*" />
                                 </div>
                                 <br><br>
-                                <button id = "btn-RC" type="submitRC" class="btn btn-dark">Reproducir Pista Cargada</button>
+                                <button id = "btn-RC" type="submitRC" class="btn btn-dark">Subir cancion</button>
                                 <br><br>
                                 <div id="visorArchivo">
                                     <!--Aqui se desplegará el fichero-->

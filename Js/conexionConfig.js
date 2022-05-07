@@ -38,6 +38,8 @@ export const Autorizar = (correo,contrasena)=>{
 };
 export const guardarUsuario = (nombre,correo,contrasena)=> setDoc(doc(db,'usuarios',correo),{nombre,correo,contrasena});
 
+export const guardarCancion = (nombre,correo,latitude,longitude)=> setDoc(doc(db,'canciones',nombre),{nombre,correo,latitude,longitude});
+
 
 export const getUsuarios = () => getDocs(collection(db,'usuarios')) 
 
@@ -46,6 +48,6 @@ export const guardarArchivo = (file,nombre)=>{
   const storageRef = ref(storage,nombre);
   // 'file' comes from the Blob or File API
   uploadBytes(storageRef, file).then((snapshot) => {
-    console.log('Uploaded a blob or file!');
+    alert("Cancion subida");
   });
 }

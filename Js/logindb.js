@@ -30,6 +30,6 @@ btn.addEventListener('submit', async (e)=>{
             alert("No se encontro usuario registrado con este correo")
         }
     }else{
-        alert ("Llene todos los datos, no se imbecil xd")
+        alert ("Llene todos los datos")
     }
 })
