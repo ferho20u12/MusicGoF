@@ -9,7 +9,7 @@ import { getFirestore ,
           doc
 } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-firestore.js";
 import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-auth.js"
-
+import { getStorage, ref, uploadBytes  } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-storage.js";
 const firebaseConfig = {
    apiKey: "AIzaSyAfGY_mqEF4huqK0oywK-HrNoqX_ityeIU",
    authDomain: "musicgo-f228a.firebaseapp.com",
@@ -40,3 +40,12 @@ export const guardarUsuario = (nombre,correo,contrasena)=> setDoc(doc(db,'usuari
 
 
 export const getUsuarios = () => getDocs(collection(db,'usuarios')) 
+
+export const guardarArchivo = (file,nombre)=>{
+  const storage = getStorage();
+  const storageRef = ref(storage,nombre);
+  // 'file' comes from the Blob or File API
+  uploadBytes(storageRef, file).then((snapshot) => {
+    console.log('Uploaded a blob or file!');
+  });
+}
