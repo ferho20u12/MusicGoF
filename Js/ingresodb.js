@@ -72,7 +72,7 @@ function geoloc (){
         navigator.geolocation.getCurrentPosition(showPosition);
     }
     else {
-      alert("Lo sentimos, tu dispositivo no admite la geolocaización.");
+      alert("Lo sentimos, tu dispositivo no admite la geolocalización.");
     }
 }
 
