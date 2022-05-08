@@ -11279,3 +11279,19 @@ footer.sticky-footer .copyright {
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
 }
+
+.correcto {
+  background-color: rgb(74, 185, 0);
+  text-align: center;
+  padding: 1rem;
+  color: var(--whiteColor);
+  text-transform: uppercase;
+}
+
+.error {
+  background-color: rgb(220, 0, 0);
+  text-align: center;
+  padding: 1rem;
+  color: var(--whiteColor);
+  text-transform: uppercase;
+}

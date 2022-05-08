@@ -12,7 +12,8 @@ btn.addEventListener("submit", async (e) => {
     if (userPass.value != "" && userName.value != "" && userEmail.value != "") {
       const docSnap = await getUsuario(userEmail.value);
       if (docSnap.exists()) {
-        alert("Ya existe una cuenta registrada con este correo");
+        //showAlert("Ya existe una cuenta registrada con este correo.", "error");
+        alert("Ya existe una cuenta registrada con este correo.");
       } else {
         var canciones = [];
         await guardarUsuario(
@@ -23,12 +24,35 @@ btn.addEventListener("submit", async (e) => {
         );
         const str = window.location.href.replace("register.html", "login.html");
         location.href = str;
-        alert("Registro Exitoso");
+        //showAlert("Registro exitoso.");
+        alert("Registro exitoso.");
       }
     } else {
-      alert("LLena todo el formulario");
+      //showAlert("Rellene todos los datos, por favor.", "error");
+      alert("Rellene todos los datos, por favor.");
     }
   } else {
-    alert("Las contraseñas no coinciden ");
+    //showAlert("Las contraseñas no coinciden.", "error");
+    alert("Las contraseñas no coinciden.");
   }
 });
+
+// Alertas de Formulario
+const form = document.querySelector(".form");
+
+function showAlert(message, type = null) {
+  const alert = document.createElement("P");
+  alert.textContent = message;
+
+  if (type) {
+    alert.classList.add("error");
+  } else {
+    alert.classList.add("correcto");
+  }
+
+  form.appendChild(alert);
+
+  setTimeout(() => {
+    alert.remove();
+  }, 3000);
+}

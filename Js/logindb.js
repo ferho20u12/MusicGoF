@@ -28,37 +28,8 @@ btn.addEventListener("submit", async (e) => {
   }
 });
 
-// Validar formulario
-const data = {
-  user: "",
-  pass: "",
-};
-
+// Alertas de Formulario
 const form = document.querySelector(".form");
-const userInput = document.querySelector("#user");
-const passInput = document.querySelector("#pass");
-
-userInput.addEventListener("input", readText);
-passInput.addEventListener("input", readText);
-
-/*
-form.addEventListener("submit", function (e) {
-  e.preventDefault();
-
-  // Validate form
-  const { user, pass } = data;
-  if (user === "" || pass === "") {
-    showAlert("Rellene todos los campos, por favor.", "error");
-    return;
-  }
-
-  showAlert("Campos correctos, gracias.");
-});
-*/
-
-function readText(e) {
-  data[e.target.id] = e.target.value;
-}
 
 function showAlert(message, type = null) {
   const alert = document.createElement("P");
