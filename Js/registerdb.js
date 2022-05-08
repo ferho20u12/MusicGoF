@@ -12,8 +12,7 @@ btn.addEventListener("submit", async (e) => {
     if (userPass.value != "" && userName.value != "" && userEmail.value != "") {
       const docSnap = await getUsuario(userEmail.value);
       if (docSnap.exists()) {
-        //showAlert("Ya existe una cuenta registrada con este correo.", "error");
-        alert("Ya existe una cuenta registrada con este correo.");
+        showAlert("Ya existe una cuenta registrada con este correo.", "error");
       } else {
         var canciones = [];
         await guardarUsuario(
@@ -22,18 +21,15 @@ btn.addEventListener("submit", async (e) => {
           userPass.value,
           canciones
         );
-        const str = window.location.href.replace("register.html", "login.html");
+        const str = window.location.href.replace("registro.html", "login.html");
         location.href = str;
-        //showAlert("Registro exitoso.");
-        alert("Registro exitoso.");
+        showAlert("Registro exitoso.");
       }
     } else {
-      //showAlert("Rellene todos los datos, por favor.", "error");
-      alert("Rellene todos los datos, por favor.");
+      showAlert("Rellene todos los datos, por favor.", "error");
     }
   } else {
-    //showAlert("Las contraseñas no coinciden.", "error");
-    alert("Las contraseñas no coinciden.");
+    showAlert("Las contraseñas no coinciden.", "error");
   }
 });
 

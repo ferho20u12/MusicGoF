@@ -42,14 +42,16 @@ body {
   background-color: rgb(74, 185, 0);
   text-align: center;
   padding: 1rem;
-  color: var(--whiteColor);
+  color: white;
   text-transform: uppercase;
+  font-weight: 700;
 }
 
 .error {
-  background-color: rgb(220, 0, 0);
+  background-color: rgb(200, 0, 0);
   text-align: center;
   padding: 1rem;
-  color: var(--whiteColor);
+  color: white;
   text-transform: uppercase;
+  font-weight: 700;
 }
