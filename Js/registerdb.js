@@ -1,5 +1,5 @@
 import {guardarUsuario,
-        getUsuarios,
+        getUsuario,
         Autorizar
 } from './conexionConfig.js'
 
@@ -15,23 +15,16 @@ btn.addEventListener("submit", async (e)=>{
         if(userPass.value != "" && userName.value != "" && userEmail.value != "")
         {
             
-            const querySnapshot = await getUsuarios()
-            var band = false;
-            querySnapshot.forEach(doc => {
-                if(doc.data().correo == userEmail.value){
-                    band = true;
-                }
-            })
-            if(!band){ 
-                await guardarUsuario(userName.value,userEmail.value,userPass.value)
-                await Autorizar(userEmail.value,userPass.value)
+            const docSnap = await getUsuario(userEmail.value)
+            if (docSnap.exists()) {
+                alert("Ya existe una cuenta registrada con este correo");
+            } else {
+                var canciones = [];
+                await guardarUsuario(userName.value,userEmail.value,userPass.value,canciones)
                 const str = window.location.href.replace('register.html','login.html');
                 location.href = str;
                 alert("Registro Exitoso");
-            }else{
-                alert("Ya existe una cuenta registrada con este correo");
-            }
-   
+            }   
         }
         else{
             alert ("LLena todo el formulario");
