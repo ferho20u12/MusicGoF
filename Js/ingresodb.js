@@ -3,6 +3,7 @@ import {
   guardarCancion,
   updateUsuario,
   getUsuario,
+  getAudioDetails
 } from "./conexionConfig.js";
 import { mainInicio, mainMap, mainPerfil, mainCap } from "./mains.js";
 const user = window.localStorage.getItem("user");
@@ -23,25 +24,30 @@ btnCap.addEventListener("click", async (e) => {
     e.preventDefault();
     const fileName = localStorage.getItem("file-name");
     if (fileName != "none") {
-      const doc = await getUsuario(correo);
-      const latitude = localStorage.getItem("latitude");
-      const longitude = localStorage.getItem("longitude");
-      const file = document.getElementById("myAudio").src;
-      var binary = convertDataURIToBinary(file);
-      var blob = new Blob([binary], { type: "audio/*" });
-      await guardarCancion(fileName, correo, latitude, longitude);
-      await guardarArchivo(blob, fileName);
-      if (doc.exists()) {
-        var canciones = doc.data().canciones;
-        canciones.push(fileName);
-        await updateUsuario(
-          doc.data().nombre,
-          doc.data().correo,
-          doc.data().contrasena,
-          canciones
-        );
+      const docAudio = await getAudioDetails(fileName);
+      if(!docAudio.exists()){
+        const doc = await getUsuario(correo);
+        const latitude = localStorage.getItem("latitude");
+        const longitude = localStorage.getItem("longitude");
+        const file = document.getElementById("myAudio").src;
+        var binary = convertDataURIToBinary(file);
+        var blob = new Blob([binary], { type: "audio/*" });
+        await guardarCancion(fileName, correo, latitude, longitude);
+        await guardarArchivo(blob, fileName);
+        if (doc.exists()) {
+          var canciones = doc.data().canciones;
+          canciones.push(fileName);
+          await updateUsuario(
+            doc.data().nombre,
+            doc.data().correo,
+            doc.data().contrasena,
+            canciones
+          );
+        }
+        alert("Su cancion se subira en breve");
+      }else{
+        alert("Ya existe una cancion con el mismo nombre");
       }
-      alert("Su cancion se subira en breve");
     } else {
       alert("Seleccione una cancion");
     }

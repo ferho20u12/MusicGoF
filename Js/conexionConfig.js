@@ -37,7 +37,7 @@ export const Autorizar = (correo,contrasena)=>{
     // ..
   });
 };
-export const getAudioDetails  = (audioName)=> getDoc(doc(db, "usuarios", audioName))
+export const getAudioDetails  = (audioName)=> getDoc(doc(db, "canciones", audioName))
 
 export const getUsuario = (correo)=> getDoc(doc(db, "usuarios", correo))
 
