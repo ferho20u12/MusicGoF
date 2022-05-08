@@ -1,4 +1,4 @@
-import { getUsuarios } from "./conexionConfig.js";
+import { getUsuario } from "./conexionConfig.js";
 let usuarios = [];
 
 const btn = document.getElementById("task-form");
@@ -8,33 +8,23 @@ btn.addEventListener("submit", async (e) => {
   const user = btn["user"];
   const pass = btn["pass"];
   if (user.value != "" && pass.value != "") {
-    const querySnapshot = await getUsuarios();
-    var band = false;
-    querySnapshot.forEach((doc) => {
-      if (doc.data().correo == user.value) {
-        band = true;
-        if (doc.data().contrasena == pass.value) {
-          const str = window.location.href.replace(
-            "login.html",
-            "ingreso.html"
-          );
-          const nom = "" + doc.data().nombre;
-          localStorage.setItem("correo", user.value);
-          localStorage.setItem("user", nom);
-          location.href = str;
-        } else {
-          showAlert("Contraseña incorrecta.", "error");
-          //alert("Contraseña incorrecta");
-        }
+    const docSnap = await getUsuario(user.value);
+    if (docSnap.exists()) {
+      if (docSnap.data().contrasena == pass.value) {
+        localStorage.setItem("correo", docSnap.data().correo);
+        localStorage.setItem("user", docSnap.data().nombre);
+        location.href = window.location.href.replace(
+          "login.html",
+          "ingreso.html"
+        );
+      } else {
+        showAlert("Contraseña incorrecta.", "error");
       }
-    });
-    if (!band) {
+    } else {
       showAlert("No se encontro usuario registrado con este correo.", "error");
-      //alert("No se encontro usuario registrado con este correo");
     }
   } else {
-    showAlert("Llene todos los datos.", "error");
-    //alert("Llene todos los datos");
+    showAlert("Rellene todos los datos, por favor.", "error");
   }
 });
 

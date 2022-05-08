@@ -1,11 +1,10 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-app.js";
 import { getFirestore ,
           collection,
-          addDoc,
           getDocs,
-          query,
-          where,
+          getDoc,
           setDoc,
+          updateDoc,
           doc
 } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-firestore.js";
 import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-auth.js"
@@ -23,8 +22,10 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 // Initialize Analytics and get a reference to the service
 const db = getFirestore();
+const storage = getStorage();
+const auth = getAuth();
+
 export const Autorizar = (correo,contrasena)=>{
-  const auth = getAuth();
   createUserWithEmailAndPassword(auth, correo, contrasena)
   .then((userCredential) => {
     // Signed in
@@ -36,18 +37,39 @@ export const Autorizar = (correo,contrasena)=>{
     // ..
   });
 };
-export const guardarUsuario = (nombre,correo,contrasena)=> setDoc(doc(db,'usuarios',correo),{nombre,correo,contrasena});
+export const getAudioDetails  = (audioName)=> getDoc(doc(db, "usuarios", audioName))
+
+export const getUsuario = (correo)=> getDoc(doc(db, "usuarios", correo))
+
+export const guardarUsuario = (nombre,correo,contrasena,canciones)=> setDoc(doc(db,'usuarios',correo),{nombre,correo,contrasena,canciones});
 
 export const guardarCancion = (nombre,correo,latitude,longitude)=> setDoc(doc(db,'canciones',nombre),{nombre,correo,latitude,longitude});
 
+export const updateUsuario = (nombre,correo,contrasena,canciones)=> updateDoc(doc(db,'usuarios',correo),{nombre,correo,contrasena,canciones});
 
 export const getUsuarios = () => getDocs(collection(db,'usuarios')) 
 
 export const guardarArchivo = (file,nombre)=>{
-  const storage = getStorage();
-  const storageRef = ref(storage,nombre);
+  const storageRef = ref(storage,'musica/'+nombre);
   // 'file' comes from the Blob or File API
   uploadBytes(storageRef, file).then((snapshot) => {
     alert("Cancion subida");
   });
 }
+export const cargarArchivo =(nameAudio)=>getDownloadURL(ref(storage, 'musica/'+nameAudio))
+.then((url) => {
+  const xhr = new XMLHttpRequest();
+  xhr.responseType = 'blob';
+  xhr.onload = (event) => {
+    const blob = xhr.response;
+  };
+  xhr.open('GET', url);
+  xhr.send();
+
+  // Or inserted into an <img> element
+  const img = document.getElementById('myimg');
+  img.setAttribute('src', url);
+})
+.catch((error) => {
+  // Handle any errors
+});

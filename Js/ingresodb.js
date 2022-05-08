@@ -1,36 +1,71 @@
 import {guardarArchivo,
-        guardarCancion
+        guardarCancion,
+        updateUsuario,
+        getUsuario
 } from './conexionConfig.js'
-import { mainInicio, mainMap, mainPerfil
+import { mainInicio, mainMap, mainPerfil,mainCap
 } from './mains.js'
 const user = window.localStorage.getItem('user');
 const correo = window.localStorage.getItem('correo');
 const btnMap = document.getElementById('btn-Map');
+const btnCap = document.getElementById('btn-Cap');
 const btnInicio = document.getElementById('btn-Inicio');
 const btnPerfil = document.getElementById('btn-Perfil');
 var band=false;
 const main = document.getElementById('main');
 
-btnMap.addEventListener("click",async (e)=>{
+btnCap.addEventListener("click",async (e)=>{
     e.preventDefault();
-    main.innerHTML = mainMap;
+    main.innerHTML = mainCap;
     geoloc();
     const btnRC = document.getElementById('btn-RC');
     btnRC.addEventListener("click",async(e)=>{
         e.preventDefault();
         const fileName  = localStorage.getItem('file-name');
         if(fileName != 'none'){
+            const doc = await getUsuario(correo);
             const latitude  = localStorage.getItem('latitude');
             const longitude = localStorage.getItem('longitude');
             const file = document.getElementById("myAudio").src;
             var binary= convertDataURIToBinary(file);
             var blob=new Blob([binary], {type : 'audio/*'});
             await guardarCancion(fileName,correo,latitude,longitude);
-            guardarArchivo(blob,fileName);
+            await guardarArchivo(blob,fileName);
+            if(doc.exists()){
+                var canciones = doc.data().canciones;
+                canciones.push(fileName);
+                await updateUsuario(doc.data().nombre,doc.data().correo,doc.data().contrasena,canciones);
+            }
             alert("Su cancion se subira en breve");
         }else{ alert("Seleccione una cancion")}
     })
 
+})
+btnMap.addEventListener("click",(e)=>{
+    e.preventDefault();
+    main.innerHTML = mainMap;
+
+    
+
+    function geoloc (){
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(showPosition);
+        }
+        else {
+          alert("Lo sentimos, tu dispositivo no admite la geolocaización.");
+        }
+    }
+    function showPosition(position){
+
+        const latitude  = position.coords.latitude;;
+        const longitude = position.coords.longitude;
+        let map = L.map('map').setView([latitude,longitude], 16);
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        L.marker([latitude,longitude]).addTo(map)
+                .openPopup();
+    }
 })
 btnInicio.addEventListener("click",(e)=>{
     e.preventDefault();
@@ -83,8 +118,12 @@ function showPosition(position){
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
-        L.marker([latitude,longitude]).addTo(map)
+    L.marker([latitude,longitude]).addTo(map)
             .openPopup();
+    L.popup()
+        .setLatLng([latitude,longitude])
+        .setContent("Ubicacion Actual")
+        .openOn(map);
     localStorage.setItem('latitude',latitude);
     localStorage.setItem('longitude',longitude);
 }
