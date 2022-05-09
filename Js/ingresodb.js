@@ -102,7 +102,7 @@ btnMap.addEventListener("click", async(e) => {
     const longitude = position.coords.longitude;
     let map2 = L.map("map2").setView([latitude, longitude], 18);
     var musicIcon = L.icon({
-      iconUrl: '../Assets/boombox-fill.png',
+      iconUrl: 'boombox-fill.png',
       iconSize: [20, 21]
     });
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
