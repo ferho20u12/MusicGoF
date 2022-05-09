@@ -131,11 +131,11 @@ btnMap.addEventListener("click", async(e) => {
           .bindPopup(doc.data().nombre)  
           .openPopup();
           if(0 >= operacion_pitagoras(latitude,longitude,doc.data().latitude,doc.data().longitude,0.000200)){
-              cancionesDisponibles.push(doc.data().nombre)
-              document.getElementById('table').innerHTML +=
-              `
-                <a type=`+doc.data().nombre+` class="list-group-item list-group-item-action">`+doc.data().nombre+`</a>
-              `
+            cancionesDisponibles.push(doc.data().nombre)
+            document.getElementById('table').innerHTML +=
+            `
+              <a type=`+doc.data().nombre+` class="list-group-item list-group-item-action">`+doc.data().nombre+`</a>
+            `
           }
 
       }

@@ -26,9 +26,8 @@ Carga tu cancion
 <div id="map" class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 </div>
 `
-export const mainPerfil = 
-`
-`
+
+
 export const mainInicio = `inicio`
 export const mainMap = 
 `
@@ -48,4 +47,85 @@ export const mainMap =
   <ul  id = "table" class="list-group">
   </ul>
 </form>
+`
+export const mainPerfil = 
+`
+    <h2>Wellcome to Rofa Music store</h2>
+    <div class="container-audio">
+        <audio controls  loop autoplay><source src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/9473/new_year_dubstep_minimix.ogg" type="audio/ogg">
+                   Your browser dose not Support the audio Tag
+               </audio>
+    </div>
+    <div class="container-audio">
+        <div class="colum1">
+            <div class="row">  
+            </div>
+        </div>
+        <div class="colum1">
+            <div class="row"></div>
+        </div>
+        <div class="colum1">
+            <div class="row"></div>
+        </div>
+        <div class="colum1">
+            <div class="row"></div>
+        </div>
+        <div class="colum1">
+            <div class="row"></div>
+        </div>
+        <div class="colum1">
+            <div class="row"></div>
+        </div>
+        <div class="colum1">
+            <div class="row"></div>
+        </div>
+        <div class="colum1">
+            <div class="row"></div>
+        </div>
+        <div class="colum1">
+            <div class="row"></div>
+        </div>
+        <div class="colum1">
+            <div class="row"></div>
+        </div>
+        <div class="colum1">
+            <div class="row"></div>
+        </div>
+        <div class="colum1">
+            <div class="row"></div>
+        </div>
+        <div class="colum1">
+            <div class="row"></div>
+        </div>
+        <div class="colum1">
+            <div class="row"></div>
+        </div>
+        <div class="colum1">
+            <div class="row"></div>
+        </div>
+        <div class="colum1">
+            <div class="row"></div>
+        </div>
+        <div class="colum1">
+            <div class="row"></div>
+        </div>
+        <div class="colum1">
+            <div class="row"></div>
+        </div>
+        <div class="colum1">
+            <div class="row"></div>
+        </div>
+        <div class="colum1">
+            <div class="row"></div>
+        </div>
+        <div class="colum1">
+            <div class="row"></div>
+        </div>
+        <div class="colum1">
+            <div class="row"></div>
+        </div>
+        <div class="colum1">
+            <div class="row"></div>
+        </div>
+    </div>
 `
