@@ -4,7 +4,8 @@ import {
   updateUsuario,
   getUsuario,
   getAudioDetails,
-  getAudios
+  getAudios,
+  guardarUsuario
 } from "./conexionConfig.js";
 import { mainInicio, mainMap, mainPerfil, mainCap } from "./mains.js";
 const user = window.localStorage.getItem("user");
@@ -58,9 +59,37 @@ btnMap.addEventListener("click", async(e) => {
   e.preventDefault();
   main.innerHTML = mainMap;
   const querySnapshot = await getAudios();
-  const doc2 = await getUsuario(correo);
+  let queryUsuario = await getUsuario(correo);
+  var cancionesDisponibles = [];
   geoloc2();
-  //---------------------------------------------------------------
+  //--------------------------------------------------------Bottons
+  function getEventTarget(e) {
+    e = e || window.event;
+    return e.target || e.srcElement; 
+  }
+
+  let ul = document.getElementById('table');
+  ul.addEventListener("click",async (e)=>{
+    queryUsuario = await getUsuario(correo);
+    let target = getEventTarget(e);
+    let li = target.closest('a'); // get reference
+    let nodes = Array.from( li.closest('ul').children ); // get array
+    let index = nodes.indexOf( li );
+    let cancionesNuevas = queryUsuario.data().canciones;
+    console.log(cancionesDisponibles.at(index));
+    cancionesNuevas.push(cancionesDisponibles.at(index))
+    await guardarUsuario(queryUsuario.data().nombre,queryUsuario.data().correo,queryUsuario.data().contrasena,cancionesNuevas);
+    cancionesDisponibles.splice(index, 1);
+    document.getElementById('table').innerHTML =``
+    cancionesDisponibles.forEach((doc)=>{
+      document.getElementById('table').innerHTML +=
+      `
+      <a type=`+doc+` class="list-group-item list-group-item-action">`+doc+`</a>
+      ` 
+    })
+        
+  })
+  //--------------------------------------------------------Funciones
   function geoloc2() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition2);
@@ -92,7 +121,7 @@ btnMap.addEventListener("click", async(e) => {
     ;
     querySnapshot.forEach((doc) => {
       var band = false;
-      doc2.data().canciones.forEach((doc3)=>{
+      queryUsuario.data().canciones.forEach((doc3)=>{
         if(doc3 == doc.data().nombre){
           band=true;
         }
@@ -101,13 +130,14 @@ btnMap.addEventListener("click", async(e) => {
         L.marker([doc.data().latitude,doc.data().longitude],{icon: musicIcon}).addTo(map2)
           .bindPopup(doc.data().nombre)  
           .openPopup();
-          
           if(0 >= operacion_pitagoras(latitude,longitude,doc.data().latitude,doc.data().longitude,0.000200)){
-            document.getElementById('table').innerHTML +=
-            `
-              <a type=`+doc.data().nombre+` class="list-group-item list-group-item-action">`+doc.data().nombre+`</a>
-            `
+              cancionesDisponibles.push(doc.data().nombre)
+              document.getElementById('table').innerHTML +=
+              `
+                <a type=`+doc.data().nombre+` class="list-group-item list-group-item-action">`+doc.data().nombre+`</a>
+              `
           }
+
       }
     })  
   }

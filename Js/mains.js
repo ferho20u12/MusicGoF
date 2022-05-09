@@ -45,7 +45,7 @@ export const mainMap =
 </div>
 <form id="form-table">
   <h5 class="card-title">Selecciona la cancion que quieras añadir a tu biblioteca</h5>
-  <ul id = "table" class="list-group">
+  <ul  id = "table" class="list-group">
   </ul>
 </form>
 `
