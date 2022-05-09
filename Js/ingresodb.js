@@ -3,7 +3,8 @@ import {
   guardarCancion,
   updateUsuario,
   getUsuario,
-  getAudioDetails
+  getAudioDetails,
+  getAudios
 } from "./conexionConfig.js";
 import { mainInicio, mainMap, mainPerfil, mainCap } from "./mains.js";
 const user = window.localStorage.getItem("user");
@@ -53,26 +54,63 @@ btnCap.addEventListener("click", async (e) => {
     }
   });
 });
-btnMap.addEventListener("click", (e) => {
+btnMap.addEventListener("click", async(e) => {
   e.preventDefault();
   main.innerHTML = mainMap;
-
+  const querySnapshot = await getAudios();
+  geoloc();
+  //---------------------------------------------------------------
   function geoloc() {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-      alert("Lo sentimos, tu dispositivo no admite la geolocaización.");
+        navigator.geolocation.getCurrentPosition(showPosition);
+      } else {
+        alert("Lo sentimos, tu dispositivo no admite la geolocaización.");
+      }
     }
-  }
   function showPosition(position) {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
-    let map = L.map("map").setView([latitude, longitude], 16);
+    var musicIcon = L.icon({
+      iconUrl: '../Assets/boombox-fill.png',
+      iconSize:     [21, 20], // size of the icon
+    });
+    let map2 = L.map("map2").setView([latitude, longitude], 18);
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    }).addTo(map);
-    L.marker([latitude, longitude]).addTo(map).openPopup();
+    }).addTo(map2);
+    var circle = L.circle([latitude, longitude], {
+        color: 'red',
+        fillColor: '#f03',
+        fillOpacity: 0.5,
+        radius: 20
+    }).addTo(map2);
+    L.marker([latitude,longitude]).addTo(map2)
+      .bindPopup("("+latitude+","+longitude+")")
+      .openPopup();
+    ;
+    querySnapshot.forEach((doc) => {
+      const latD = doc.data().latitude;
+      const lonD = doc.data().longitude;      
+      L.marker([latD,lonD], {icon: musicIcon}).addTo(map2)
+        .bindPopup(doc.data().nombre)  
+        .openPopup();
+      if(0 >= operacion_pitagoras(latitude,longitude,latD,lonD,0.000200)){
+        console.log(doc.data().nombre);
+        document.getElementById('table').innerHTML +=
+        `
+          <a type=`+doc.data().nombre+` class="list-group-item list-group-item-action">`+doc.data().nombre+`</a>
+        `
+      }
+    })
+    localStorage.setItem("latitude", ""+latitude);
+    localStorage.setItem("longitude", ""+latitude);  
+  }
+  function operacion_pitagoras(x,y,x1,y2,r)
+  {
+    var result = 0;
+    result =  ((x-x1)*(x-x1))  + ((y-y2)*(y-y2)) -  (r*r);
+    return result;
   }
 });
 btnInicio.addEventListener("click", (e) => {
@@ -123,13 +161,12 @@ function showPosition(position) {
     attribution:
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(map);
-  L.marker([latitude, longitude]).addTo(map).openPopup();
   L.popup()
     .setLatLng([latitude, longitude])
     .setContent("Ubicacion Actual")
     .openOn(map);
-  localStorage.setItem("latitude", latitude);
-  localStorage.setItem("longitude", longitude);
+  L.marker([latitude, longitude]).addTo(map).openPopup();
+
 }
 
 //---------------------------------------------------------------------Funciones de inico/fin de la pagina
@@ -147,7 +184,7 @@ window.addEventListener("DOMContentLoaded", function (e) {
 window.addEventListener("beforeunload", function (e) {
   localStorage.setItem("user", "none");
   localStorage.setItem("correo", "none");
-  localStorage.setItem("latitude", null);
-  localStorage.setItem("longitude", null);
+  localStorage.setItem("latitude", "");
+  localStorage.setItem("longitude", "");
   localStorage.setItem("file-name", "none");
 });

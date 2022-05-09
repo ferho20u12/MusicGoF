@@ -39,6 +39,8 @@ export const Autorizar = (correo,contrasena)=>{
 };
 export const getAudioDetails  = (audioName)=> getDoc(doc(db, "canciones", audioName))
 
+
+
 export const getUsuario = (correo)=> getDoc(doc(db, "usuarios", correo))
 
 export const guardarUsuario = (nombre,correo,contrasena,canciones)=> setDoc(doc(db,'usuarios',correo),{nombre,correo,contrasena,canciones});
@@ -47,7 +49,9 @@ export const guardarCancion = (nombre,correo,latitude,longitude)=> setDoc(doc(db
 
 export const updateUsuario = (nombre,correo,contrasena,canciones)=> updateDoc(doc(db,'usuarios',correo),{nombre,correo,contrasena,canciones});
 
-export const getUsuarios = () => getDocs(collection(db,'usuarios')) 
+export const getUsuarios = () => getDocs(collection(db,'usuarios'))
+ 
+export const getAudios = ()=> getDocs(collection(db,'canciones')) 
 
 export const guardarArchivo = (file,nombre)=>{
   const storageRef = ref(storage,'musica/'+nombre);
