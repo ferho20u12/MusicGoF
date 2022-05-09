@@ -58,6 +58,7 @@ btnMap.addEventListener("click", async(e) => {
   e.preventDefault();
   main.innerHTML = mainMap;
   const querySnapshot = await getAudios();
+  const doc2 = await getUsuario(correo);
   geoloc2();
   //---------------------------------------------------------------
   function geoloc2() {
@@ -73,7 +74,7 @@ btnMap.addEventListener("click", async(e) => {
     let map2 = L.map("map2").setView([latitude, longitude], 18);
     var musicIcon = L.icon({
       iconUrl: '../Assets/boombox-fill.png',
-      iconSize:     [20, 21]
+      iconSize: [20, 21]
     });
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution:
@@ -90,17 +91,24 @@ btnMap.addEventListener("click", async(e) => {
       .openPopup();
     ;
     querySnapshot.forEach((doc) => {
-      L.marker([doc.data().latitude,doc.data().longitude],{icon: musicIcon}).addTo(map2)
-        .bindPopup(doc.data().nombre)  
-        .openPopup();
-        
-        if(0 >= operacion_pitagoras(latitude,longitude,doc.data().latitude,doc.data().longitude,0.000200)){
-          console.log(doc.data().nombre);
-          document.getElementById('table').innerHTML +=
-          `
-            <a type=`+doc.data().nombre+` class="list-group-item list-group-item-action">`+doc.data().nombre+`</a>
-          `
+      var band = false;
+      doc2.data().canciones.forEach((doc3)=>{
+        if(doc3 == doc.data().nombre){
+          band=true;
         }
+      })
+      if(!band){
+        L.marker([doc.data().latitude,doc.data().longitude],{icon: musicIcon}).addTo(map2)
+          .bindPopup(doc.data().nombre)  
+          .openPopup();
+          
+          if(0 >= operacion_pitagoras(latitude,longitude,doc.data().latitude,doc.data().longitude,0.000200)){
+            document.getElementById('table').innerHTML +=
+            `
+              <a type=`+doc.data().nombre+` class="list-group-item list-group-item-action">`+doc.data().nombre+`</a>
+            `
+          }
+      }
     })  
   }
   function operacion_pitagoras(x,y,x1,y2,r)

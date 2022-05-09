@@ -32,11 +32,19 @@ export const mainPerfil =
 export const mainInicio = `inicio`
 export const mainMap = 
 `
+<br></br>
+<br></br>
+<br></br>
+<h5 class="card-title">Musica compartida</h5>
+<br></br>
+<br></br>
+<br></br>
+
 </di>
 <div id="map2" class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 </div>
 <form id="form-table">
-  <h5 class="card-title">Canciones dentro del area</h5>
+  <h5 class="card-title">Selecciona la cancion que quieras añadir a tu biblioteca</h5>
   <ul id = "table" class="list-group">
   </ul>
 </form>
