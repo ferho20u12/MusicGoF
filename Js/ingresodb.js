@@ -35,7 +35,7 @@ btnCap.addEventListener("click", async (e) => {
         var blob = new Blob([binary], { type: "audio/*" });
         await guardarCancion(fileName, correo, latitude, longitude);
         await guardarArchivo(blob, fileName);
-        if (doc.exists()) {
+        if (doc.exists()) {  
           var canciones = doc.data().canciones;
           canciones.push(fileName);
           await updateUsuario(
@@ -58,23 +58,23 @@ btnMap.addEventListener("click", async(e) => {
   e.preventDefault();
   main.innerHTML = mainMap;
   const querySnapshot = await getAudios();
-  geoloc();
+  geoloc2();
   //---------------------------------------------------------------
-  function geoloc() {
+  function geoloc2() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
+        navigator.geolocation.getCurrentPosition(showPosition2);
       } else {
         alert("Lo sentimos, tu dispositivo no admite la geolocaización.");
       }
-    }
-  function showPosition(position) {
+  }
+  function showPosition2(position) {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
+    let map2 = L.map("map2").setView([latitude, longitude], 18);
     var musicIcon = L.icon({
       iconUrl: '../Assets/boombox-fill.png',
-      iconSize:     [21, 20], // size of the icon
+      iconSize:     [20, 21]
     });
-    let map2 = L.map("map2").setView([latitude, longitude], 18);
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -90,21 +90,18 @@ btnMap.addEventListener("click", async(e) => {
       .openPopup();
     ;
     querySnapshot.forEach((doc) => {
-      const latD = doc.data().latitude;
-      const lonD = doc.data().longitude;      
-      L.marker([latD,lonD], {icon: musicIcon}).addTo(map2)
+      L.marker([doc.data().latitude,doc.data().longitude],{icon: musicIcon}).addTo(map2)
         .bindPopup(doc.data().nombre)  
         .openPopup();
-      if(0 >= operacion_pitagoras(latitude,longitude,latD,lonD,0.000200)){
-        console.log(doc.data().nombre);
-        document.getElementById('table').innerHTML +=
-        `
-          <a type=`+doc.data().nombre+` class="list-group-item list-group-item-action">`+doc.data().nombre+`</a>
-        `
-      }
-    })
-    localStorage.setItem("latitude", ""+latitude);
-    localStorage.setItem("longitude", ""+latitude);  
+        
+        if(0 >= operacion_pitagoras(latitude,longitude,doc.data().latitude,doc.data().longitude,0.000200)){
+          console.log(doc.data().nombre);
+          document.getElementById('table').innerHTML +=
+          `
+            <a type=`+doc.data().nombre+` class="list-group-item list-group-item-action">`+doc.data().nombre+`</a>
+          `
+        }
+    })  
   }
   function operacion_pitagoras(x,y,x1,y2,r)
   {
@@ -166,7 +163,8 @@ function showPosition(position) {
     .setContent("Ubicacion Actual")
     .openOn(map);
   L.marker([latitude, longitude]).addTo(map).openPopup();
-
+  localStorage.setItem("latitude", latitude);
+  localStorage.setItem("longitude", longitude);
 }
 
 //---------------------------------------------------------------------Funciones de inico/fin de la pagina
