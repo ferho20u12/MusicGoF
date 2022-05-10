@@ -10,20 +10,24 @@ btn.addEventListener("submit", async (e) => {
   const userPass2 = btn["userPass2"];
   if (userPass.value == userPass2.value) {
     if (userPass.value != "" && userName.value != "" && userEmail.value != "") {
-      const docSnap = await getUsuario(userEmail.value);
-      if (docSnap.exists()) {
-        showAlert("Ya existe una cuenta registrada con este correo.", "error");
-      } else {
-        var canciones = [];
-        await guardarUsuario(
-          userName.value,
-          userEmail.value,
-          userPass.value,
-          canciones
-        );
-        const str = window.location.href.replace("registro.html", "login.html");
-        location.href = str;
-        showAlert("Registro exitoso.");
+      if(userName.value != "pinchi vieja"){
+        const docSnap = await getUsuario(userEmail.value);
+        if (docSnap.exists()) {
+          showAlert("Ya existe una cuenta registrada con este correo.", "error");
+        } else {
+          var canciones = [];
+          await guardarUsuario(
+            userName.value,
+            userEmail.value,
+            userPass.value,
+            canciones
+          );
+          const str = window.location.href.replace("registro.html", "login.html");
+          location.href = str;
+          showAlert("Registro exitoso.");
+        }
+      }else{
+        showAlert("No ofenda a las personas mayores. *se enoja", "error");
       }
     } else {
       showAlert("Rellene todos los datos, por favor.", "error");

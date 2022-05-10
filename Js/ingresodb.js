@@ -239,6 +239,7 @@ function showPosition(position) {
 window.addEventListener("DOMContentLoaded", function (e) {
   localStorage.setItem("file-name", "none");
   if (user != "none") {
+    main.innerHTML = mainInicio;
     const texto = document.getElementById("texto-user");
     const name = "Bienvenido " + user;
     texto.placeholder = name;

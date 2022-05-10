@@ -28,7 +28,10 @@ Carga tu cancion
 `
 
 
-export const mainInicio = `inicio`
+export const mainInicio = 
+`
+    <h2>Bienvenido</h2>
+`
 export const mainMap = 
 `
 <br></br>
