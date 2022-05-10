@@ -50,11 +50,9 @@ export const mainMap =
 `
 export const mainPerfil = 
 `
-    <h2>Wellcome to Rofa Music store</h2>
+    <h2>Canciones Almacenadas en la nube</h2>
     <div class="container-audio">
-        <audio controls  loop autoplay><source src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/9473/new_year_dubstep_minimix.ogg" type="audio/ogg">
-                   Your browser dose not Support the audio Tag
-               </audio>
+        <audio controls  loop autoplay id ="audioSource" ><source src="" id="audio" type="audio/*">Your browser dose not Support the audio Tag</audio>
     </div>
     <div class="container-audio">
         <div class="colum1">
@@ -128,4 +126,9 @@ export const mainPerfil =
             <div class="row"></div>
         </div>
     </div>
+    <div class="container-audio">
+        <h2>Lista de canciones</h2>
+        <ul  id = "table-songs" class="list-group">
+        </ul>
+    </div>    
 `

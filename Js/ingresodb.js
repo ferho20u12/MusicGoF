@@ -5,7 +5,8 @@ import {
   getUsuario,
   getAudioDetails,
   getAudios,
-  guardarUsuario
+  guardarUsuario,
+  cargarArchivo
 } from "./conexionConfig.js";
 import { mainInicio, mainMap, mainPerfil, mainCap } from "./mains.js";
 const user = window.localStorage.getItem("user");
@@ -115,10 +116,6 @@ btnMap.addEventListener("click", async(e) => {
         fillOpacity: 0.5,
         radius: 20
     }).addTo(map2);
-    L.marker([latitude,longitude]).addTo(map2)
-      .bindPopup("("+latitude+","+longitude+")")
-      .openPopup();
-    ;
     querySnapshot.forEach((doc) => {
       var band = false;
       queryUsuario.data().canciones.forEach((doc3)=>{
@@ -139,7 +136,13 @@ btnMap.addEventListener("click", async(e) => {
           }
 
       }
-    })  
+    })
+    L.marker([latitude,longitude]).addTo(map2)
+      .bindPopup("Tu estas aqui")
+      .openPopup();
+    ;
+    localStorage.setItem("latitude", latitude);
+    localStorage.setItem("longitude", longitude);  
   }
   function operacion_pitagoras(x,y,x1,y2,r)
   {
@@ -148,13 +151,40 @@ btnMap.addEventListener("click", async(e) => {
     return result;
   }
 });
-btnInicio.addEventListener("click", (e) => {
+btnInicio.addEventListener("click", async (e) => {
   e.preventDefault();
   main.innerHTML = mainInicio;
 });
-btnPerfil.addEventListener("click", (e) => {
+btnPerfil.addEventListener("click", async(e) => {
   e.preventDefault();
   main.innerHTML = mainPerfil;
+  //-----------------------------Declaracion de variables
+  const user = await getUsuario(correo);
+  let ul = document.getElementById('table-songs');
+  let list = []
+  const source = document.getElementById('audioSource');
+  //-----------------------------Boton para reproducir cancion
+  
+  function getEventTarget(e) {
+    e = e || window.event;
+    return e.target || e.srcElement; 
+  }
+  ul.addEventListener("click",async (e)=>{
+    let target = getEventTarget(e);
+    let li = target.closest('a'); // get reference
+    let nodes = Array.from( li.closest('ul').children ); // get array
+    let index = nodes.indexOf( li );
+    await cargarArchivo(user.data().canciones.at(index),source);
+    
+  })
+  //-----------------------------Cargar sonidos 
+  user.data().canciones.forEach((doc) => {
+    document.getElementById('table-songs').innerHTML +=
+      `
+        <a class="list-group-item list-group-item-action" data-value="`+doc+`">`+doc+`</a>
+      `
+    list.push(doc)
+  })
 });
 
 //-------------------------------------------------------------Funciones de cancion
