@@ -1,7 +1,8 @@
 #map { height: 300px;
        width: 100%; }
-#map2 { height: 400px;
-       width: 100%; }
+#map2 { 
+       height: 300px;
+        width:100%; }
 * {
 font-family: 'Allerta', arial, Tahoma;
 box-sizing: border-box;

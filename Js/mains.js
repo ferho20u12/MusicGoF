@@ -52,7 +52,7 @@ export const mainPerfil =
 `
     <h2>Canciones Almacenadas en la nube</h2>
     <div class="container-audio">
-        <audio controls  loop autoplay id ="audioSource" ><source src="" id="audio" type="audio/*">Your browser dose not Support the audio Tag</audio>
+        <audio controls  autoplay id ="audioSource" ><source src="" id="audio" type="audio/*">Your browser dose not Support the audio Tag</audio>
     </div>
     <div class="container-audio">
         <div class="colum1">
@@ -89,43 +89,7 @@ export const mainPerfil =
         <div class="colum1">
             <div class="row"></div>
         </div>
-        <div class="colum1">
-            <div class="row"></div>
-        </div>
-        <div class="colum1">
-            <div class="row"></div>
-        </div>
-        <div class="colum1">
-            <div class="row"></div>
-        </div>
-        <div class="colum1">
-            <div class="row"></div>
-        </div>
-        <div class="colum1">
-            <div class="row"></div>
-        </div>
-        <div class="colum1">
-            <div class="row"></div>
-        </div>
-        <div class="colum1">
-            <div class="row"></div>
-        </div>
-        <div class="colum1">
-            <div class="row"></div>
-        </div>
-        <div class="colum1">
-            <div class="row"></div>
-        </div>
-        <div class="colum1">
-            <div class="row"></div>
-        </div>
-        <div class="colum1">
-            <div class="row"></div>
-        </div>
-        <div class="colum1">
-            <div class="row"></div>
-        </div>
-    </div>
+       </div>
     <div class="container-audio">
         <h2>Lista de canciones</h2>
         <ul  id = "table-songs" class="list-group">
